@@ -106,7 +106,7 @@ const Explore = () => {
           <LoadingSpinner />
         )}
 
-        {pageSize > 20 && (
+        {pageSize > 10 && (
           <div className='w-full flex items-center justify-center'>
             <Pagination
               totalTagsCount={totalTagsCount}

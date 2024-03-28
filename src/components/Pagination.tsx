@@ -57,7 +57,7 @@ const Pagination = ({
 
   return (
     <div className='flex items-center gap-2 px-2'>
-      <Button onClick={prevPageHandler}>
+      <Button onClick={prevPageHandler} disabled={activePage <= 1}>
         <IoIosArrowBack />
       </Button>
       <Button className='max-w-[90px] group '>
@@ -77,7 +77,9 @@ const Pagination = ({
       <Button onClick={() => setActivePage(totalTagsNumber)}>
         {totalTagsNumber}
       </Button>
-      <Button onClick={nextPageHandler}>
+      <Button
+        onClick={nextPageHandler}
+        disabled={activePage === totalTagsNumber}>
         <IoIosArrowForward />
       </Button>
     </div>

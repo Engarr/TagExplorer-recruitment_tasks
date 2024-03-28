@@ -1,12 +1,14 @@
 'use client';
 import { MdSort } from 'react-icons/md';
 
+import { Button } from './ui/button';
+import { useState } from 'react';
+import { useExploreStore } from '@/context/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -16,24 +18,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { Button } from './ui/button';
-import { useState } from 'react';
-
-type PropsType = {
-  setFilterData: React.Dispatch<
-    React.SetStateAction<{
-      pageSize: number;
-      sort: string;
-      order: string;
-    }>
-  >;
-  filterData: {
-    pageSize: number;
-    sort: string;
-    order: string;
-  };
-};
-const Filters = ({ setFilterData, filterData }: PropsType) => {
+const Filters = () => {
+  const { setFilterData, filterData } = useExploreStore();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     sort: filterData.sort,
@@ -52,12 +38,13 @@ const Filters = ({ setFilterData, filterData }: PropsType) => {
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };
+
   const OnSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setOpen(false);
     setFilterData({
-      order: formData.order,
       pageSize: Number(formData.tagsNumber),
+      order: formData.order,
       sort: formData.sort,
     });
   };

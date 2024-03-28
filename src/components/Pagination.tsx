@@ -2,19 +2,14 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxSlash } from 'react-icons/rx';
+import { useExploreStore } from '@/context/store';
 
 type PropsType = {
-  totalTagsCount: number;
-  activePage: number;
   pageSize: number;
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
 };
-const Pagination = ({
-  totalTagsCount,
-  setActivePage,
-  activePage,
-  pageSize,
-}: PropsType) => {
+const Pagination = ({ pageSize }: PropsType) => {
+  const { activePage, setActivePage, totalTagsCount } =
+    useExploreStore();
   const totalTagsNumber = Math.ceil(totalTagsCount / pageSize);
   const [inputValue, setInputValue] = useState('');
 
@@ -26,17 +21,18 @@ const Pagination = ({
       setActivePage(pageNumber);
     }
   };
-  const nextPageHanlder = () => {
+
+  const nextPageHandler = () => {
     if (activePage < totalTagsNumber) {
-      setActivePage((prev) => prev + 1);
+      setActivePage(activePage + 1);
     }
     if (activePage === totalTagsNumber) {
       setActivePage(totalTagsNumber);
     }
   };
-  const prevPageHanlder = () => {
+  const prevPageHandler = () => {
     if (activePage > 1) {
-      setActivePage((prev) => prev - 1);
+      setActivePage(activePage - 1);
     }
     if (activePage === 1) {
       setActivePage(1);
@@ -45,7 +41,7 @@ const Pagination = ({
 
   return (
     <div className='flex items-center gap-2 px-2'>
-      <Button onClick={prevPageHanlder}>
+      <Button onClick={prevPageHandler}>
         <IoIosArrowBack />
       </Button>
       <Button className='max-w-[90px] group '>
@@ -65,7 +61,7 @@ const Pagination = ({
       <Button onClick={() => setActivePage(totalTagsNumber)}>
         {totalTagsNumber}
       </Button>
-      <Button onClick={nextPageHanlder}>
+      <Button onClick={nextPageHandler}>
         <IoIosArrowForward />
       </Button>
     </div>

@@ -1,32 +1,17 @@
 import { UseQueryResult, useQuery } from 'react-query';
 import { QUERY_KEY_TAGS, fetchTags } from '@/lib/tags';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import Pagination from '@/components/Pagination';
 import Filters from '@/components/Filters';
 import Feed from '@/components/Feed';
 import Error from '@/components/ui/error';
 import LoadingSpinner from '@/components/ui/loading';
+import { useExploreStore } from '@/context/store';
+import { FetchedTagsDataType } from '@/types/filterDataType';
 
-export type DataType = {
-  tags: {
-    items: {
-      count: number;
-      has_synonyms: boolean;
-      is_moderator_only: boolean;
-      is_required: boolean;
-      name: string;
-    }[];
-  };
-  total: number;
-};
 const Explore = () => {
-  const [totalTagsCount, setTotalTagsCount] = useState(0);
-  const [activePage, setActivePage] = useState(1);
-  const [filterData, setFilterData] = useState({
-    pageSize: 20,
-    sort: 'popular',
-    order: 'desc',
-  });
+  const { activePage, setTotalTagsCount, filterData } = useExploreStore();
+
   const fetchTagsData = useCallback(() => {
     return fetchTags({
       page: activePage,
@@ -36,7 +21,11 @@ const Explore = () => {
     });
   }, [activePage, filterData]);
 
-  const { data, isLoading, isError }: UseQueryResult<DataType> = useQuery(
+  const {
+    data: tags,
+    isLoading,
+    isError,
+  }: UseQueryResult<FetchedTagsDataType> = useQuery(
     [QUERY_KEY_TAGS, activePage, filterData],
     fetchTagsData,
     {
@@ -45,10 +34,11 @@ const Explore = () => {
   );
 
   useEffect(() => {
-    if (data) {
-      setTotalTagsCount(data.total);
+    if (tags) {
+      setTotalTagsCount(tags.total);
     }
-  }, [data, filterData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tags, filterData]);
 
   const sortByName =
     filterData.sort === 'popular'
@@ -88,32 +78,22 @@ const Explore = () => {
               </div>
             </div>
 
-            <Filters setFilterData={setFilterData} filterData={filterData} />
+            <Filters />
           </div>
           <div className='w-full flex items-center justify-center'>
-            <Pagination
-              totalTagsCount={totalTagsCount}
-              setActivePage={setActivePage}
-              activePage={activePage}
-              pageSize={filterData.pageSize}
-            />
+            <Pagination pageSize={filterData.pageSize} />
           </div>
         </div>
 
-        {!isLoading && data ? (
-          <Feed items={data.tags.items} />
+        {!isLoading && tags ? (
+          <Feed items={tags.tags.items} />
         ) : (
           <LoadingSpinner />
         )}
 
         {pageSize > 10 && (
           <div className='w-full flex items-center justify-center'>
-            <Pagination
-              totalTagsCount={totalTagsCount}
-              setActivePage={setActivePage}
-              activePage={activePage}
-              pageSize={filterData.pageSize}
-            />
+            <Pagination pageSize={filterData.pageSize} />
           </div>
         )}
       </div>

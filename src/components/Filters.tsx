@@ -67,8 +67,8 @@ const Filters = ({ open, setOpen }: PropsType) => {
     <div>
       <DropdownMenu open={open} onOpenChange={onOpenHandler}>
         <DropdownMenuTrigger tabIndex={-1} className='outline-none'>
-          <Button>
-            <MdSort className='flex items-center text-[40px] text-sky-600 ' />
+          <Button className='max-lg:mr-1 '>
+            <MdSort className='flex items-center text-[30px] lg:text-[40px] text-sky-600 ' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-2'>

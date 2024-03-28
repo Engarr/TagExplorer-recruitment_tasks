@@ -66,11 +66,14 @@ const Explore = () => {
         <div className=''>
           <div className='flex lg:items-center justify-between my-5 lg:mb-10 items-start'>
             <div className='flex flex-col px-2 '>
-              <h2 className={`font-poppins lg:text-3xl  font-semibold  `}>
+              <h2
+                className={`font-poppins text-sm lg:text-3xl  font-semibold  `}>
                 Znajdź tag, który Cię interesuje:
               </h2>
               <div className='flex gap-2 mt-2 flex-col lg:flex-row'>
-                <p className='font-semibold text-sm'>Opcje sortowania:</p>
+                <p className='font-semibold text-xs lg:text-base'>
+                  Zastosowane filtry:
+                </p>
                 <div
                   className='flex gap-2'
                   onClick={() => {
@@ -91,7 +94,7 @@ const Explore = () => {
 
             <Filters open={open} setOpen={setOpen} />
           </div>
-          <div className='w-full flex items-center justify-center'>
+          <div className='w-full flex items-center justify-center mt-4'>
             <Pagination
               pageSize={filterData.pageSize}
               activePage={activePage}

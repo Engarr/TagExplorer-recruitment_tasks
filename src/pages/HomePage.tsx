@@ -4,7 +4,7 @@ import image from '@/assets/Stack_Overflow-Logo.wine.svg';
 
 const HomePage = () => {
   return (
-    <section className='lg:h-[calc(100vh-210px)]  h-[calc(100vh-150px)] lg:min-h-[520px] flex flex-1'>
+    <section className='lg:h-[calc(100vh-270px)]  h-[calc(100vh-150px)] lg:min-h-[520px] flex flex-1'>
       <div className='max-w-[998px] mx-auto  w-full flex flex-col lg:flex-row items-center justify-center p-4 gap-2'>
         <div className='w-[300px]'>
           <img src={image} />

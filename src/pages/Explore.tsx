@@ -1,6 +1,6 @@
 import { UseQueryResult, useQuery } from 'react-query';
 import { QUERY_KEY_TAGS, fetchTags } from '@/lib/tags';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import Filters from '@/components/Filters';
 import Feed from '@/components/Feed';
@@ -10,6 +10,7 @@ import { useExploreStore } from '@/context/store';
 import { FetchedTagsDataType } from '@/types/filterDataType';
 
 const Explore = () => {
+  const [open, setOpen] = useState(false);
   const {
     activePage,
     setTotalTagsCount,
@@ -70,7 +71,11 @@ const Explore = () => {
               </h2>
               <div className='flex gap-2 mt-2 flex-col lg:flex-row'>
                 <p className='font-semibold text-sm'>Opcje sortowania:</p>
-                <div className='flex gap-2'>
+                <div
+                  className='flex gap-2'
+                  onClick={() => {
+                    setOpen(true);
+                  }}>
                   <span className='border-x-2 lg:px-2 text-sm px-1'>
                     {sortByName}
                   </span>
@@ -84,7 +89,7 @@ const Explore = () => {
               </div>
             </div>
 
-            <Filters />
+            <Filters open={open} setOpen={setOpen} />
           </div>
           <div className='w-full flex items-center justify-center'>
             <Pagination

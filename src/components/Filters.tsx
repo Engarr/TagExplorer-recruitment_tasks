@@ -11,10 +11,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import FilterSelect from './FilterSelect';
+type PropsType = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const Filters = () => {
+const Filters = ({ open, setOpen }: PropsType) => {
   const { setFilterData, filterData } = useExploreStore();
-  const [open, setOpen] = useState(false);
+  const onOpenHandler = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
   const [formData, setFormData] = useState({
     sort: filterData.sort,
     tagsNumber: filterData.pageSize,
@@ -28,10 +34,6 @@ const Filters = () => {
         ? 'Aktywność'
         : 'Nazwa';
   const orderName = formData.order === 'desc' ? 'Malejąco' : 'Rosnąco';
-
-  const onOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
-  };
 
   const OnSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,11 +65,11 @@ const Filters = () => {
 
   return (
     <div>
-      <DropdownMenu open={open} onOpenChange={onOpenChange}>
-        <DropdownMenuTrigger>
-          <div className='flex items-center mr-2 lg:p-2 text-[30px] text-sky-600 '>
-            <MdSort />
-          </div>
+      <DropdownMenu open={open} onOpenChange={onOpenHandler}>
+        <DropdownMenuTrigger tabIndex={-1} className='outline-none'>
+          <Button>
+            <MdSort className='flex items-center text-[40px] text-sky-600 ' />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-2'>
           <form

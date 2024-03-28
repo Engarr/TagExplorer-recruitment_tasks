@@ -19,7 +19,7 @@ const HomePage = () => {
             abyś mógł odnaleźć dokładnie to, czego szukasz.
           </p>
           <div className=' max-lg:w-full'>
-            <Button size='lg' variant='primary' className='w-full' >
+            <Button size='lg' variant='primary' className='w-full' asChild>
               <Link to='/eksploruj'>Zaczynamy!</Link>
             </Button>
           </div>

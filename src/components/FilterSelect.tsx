@@ -34,7 +34,7 @@ const FilterSelect = ({
       <div className='w-[150px]'>
         <Select
           onValueChange={(e) => setFormData((prev) => ({ ...prev, [id]: e }))}>
-          <SelectTrigger id={id}>
+          <SelectTrigger id={id} >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent position='popper'>

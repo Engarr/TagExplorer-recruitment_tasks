@@ -8,7 +8,7 @@ const Footer = () => {
           href='https://github.com/Engarr'
           target='_blank'
           rel='noopener noreferrer'
-          className='hover:text-sky-600 duration-200'>
+          className='hover:text-sky-600 duration-200 outline-1 outline-blue-500/50	outline-offset-2'>
           Łukasz Woś
         </a>
       </p>

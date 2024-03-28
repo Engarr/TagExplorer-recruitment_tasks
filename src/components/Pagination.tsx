@@ -2,21 +2,37 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxSlash } from 'react-icons/rx';
-import { useExploreStore } from '@/context/store';
 
-type PropsType = {
+export type PaginationPropsType = {
   pageSize: number;
+  totalTagsCount: number;
+  setActivePage: (page: number) => void;
+  activePage: number;
 };
-const Pagination = ({ pageSize }: PropsType) => {
-  const { activePage, setActivePage, totalTagsCount } =
-    useExploreStore();
+const Pagination = ({
+  pageSize,
+  totalTagsCount,
+  setActivePage,
+  activePage,
+}: PaginationPropsType) => {
   const totalTagsNumber = Math.ceil(totalTagsCount / pageSize);
   const [inputValue, setInputValue] = useState('');
 
   const pageHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-    const pageNumber = parseInt(value);
+    const value = Number(event.target.value);
+
+    if (value < 1) {
+      setInputValue('1');
+      setActivePage(1);
+      return;
+    }
+    if (value > totalTagsNumber) {
+      setInputValue(totalTagsNumber.toString());
+      setActivePage(totalTagsNumber);
+      return;
+    }
+    setInputValue(value.toString());
+    const pageNumber = value;
     if (!isNaN(pageNumber)) {
       setActivePage(pageNumber);
     }

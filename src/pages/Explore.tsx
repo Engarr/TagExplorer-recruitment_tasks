@@ -4,13 +4,19 @@ import { useCallback, useEffect } from 'react';
 import Pagination from '@/components/Pagination';
 import Filters from '@/components/Filters';
 import Feed from '@/components/Feed';
-import Error from '@/components/ui/error';
-import LoadingSpinner from '@/components/ui/loading';
+import Error from '@/components/Error';
+import { LoadingSpinner } from '@/components/ui/loading';
 import { useExploreStore } from '@/context/store';
 import { FetchedTagsDataType } from '@/types/filterDataType';
 
 const Explore = () => {
-  const { activePage, setTotalTagsCount, filterData } = useExploreStore();
+  const {
+    activePage,
+    setTotalTagsCount,
+    filterData,
+    totalTagsCount,
+    setActivePage,
+  } = useExploreStore();
 
   const fetchTagsData = useCallback(() => {
     return fetchTags({
@@ -44,8 +50,8 @@ const Explore = () => {
     filterData.sort === 'popular'
       ? 'Popularność'
       : filterData.sort === 'activity'
-      ? 'Aktywność'
-      : 'Nazwa';
+        ? 'Aktywność'
+        : 'Nazwa';
   const orderName = filterData.order === 'desc' ? 'Malejąco' : 'Rosnąco';
   const pageSize = filterData.pageSize;
 
@@ -81,19 +87,29 @@ const Explore = () => {
             <Filters />
           </div>
           <div className='w-full flex items-center justify-center'>
-            <Pagination pageSize={filterData.pageSize} />
+            <Pagination
+              pageSize={filterData.pageSize}
+              activePage={activePage}
+              totalTagsCount={totalTagsCount}
+              setActivePage={setActivePage}
+            />
           </div>
         </div>
 
         {!isLoading && tags ? (
           <Feed items={tags.tags.items} />
         ) : (
-          <LoadingSpinner />
+          <LoadingSpinner text='Pobieranie danych' />
         )}
 
         {pageSize > 10 && (
           <div className='w-full flex items-center justify-center'>
-            <Pagination pageSize={filterData.pageSize} />
+            <Pagination
+              pageSize={filterData.pageSize}
+              activePage={activePage}
+              totalTagsCount={totalTagsCount}
+              setActivePage={setActivePage}
+            />
           </div>
         )}
       </div>

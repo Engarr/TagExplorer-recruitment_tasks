@@ -9,14 +9,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
+import FilterSelect from './FilterSelect';
 
 const Filters = () => {
   const { setFilterData, filterData } = useExploreStore();
@@ -31,8 +25,8 @@ const Filters = () => {
     formData.sort === 'popular'
       ? 'Popularność'
       : formData.sort === 'activity'
-      ? 'Aktywność'
-      : 'Nazwa';
+        ? 'Aktywność'
+        : 'Nazwa';
   const orderName = formData.order === 'desc' ? 'Malejąco' : 'Rosnąco';
 
   const onOpenChange = (newOpen: boolean) => {
@@ -49,6 +43,24 @@ const Filters = () => {
     });
   };
 
+  const sortSelectItems = [
+    { value: 'popular', name: 'Popularność' },
+    { value: 'activity', name: 'Aktywność' },
+    { value: 'name', name: 'Nazwa' },
+  ];
+  const orderSelectItems = [
+    { value: 'desc', name: 'Malejąco' },
+    { value: 'asc', name: 'Rosnąco' },
+  ];
+  const tagsSelectItems = [
+    { value: '5', name: '5' },
+    { value: '10', name: '10' },
+    { value: '20', name: '20' },
+    { value: '30', name: '30' },
+    { value: '50', name: '50' },
+    { value: '100', name: '100' },
+  ];
+
   return (
     <div>
       <DropdownMenu open={open} onOpenChange={onOpenChange}>
@@ -62,65 +74,28 @@ const Filters = () => {
             className=' flex flex-col items-center justify-center gap-6 px-5 py-10'
             onSubmit={OnSubmitHandler}>
             <div className='flex flex-col lg:flex-row w-full items-center gap-6 '>
-              <div className='flex flex-col space-y-1.5'>
-                <Label htmlFor='framework'>Sortuj według:</Label>
-                <div className='w-[150px]'>
-                  <Select
-                    onValueChange={(e) =>
-                      setFormData((prev) => ({ ...prev, sort: e }))
-                    }>
-                    <SelectTrigger id='sort'>
-                      <SelectValue placeholder={sortByName} />
-                    </SelectTrigger>
-                    <SelectContent position='popper'>
-                      <SelectItem value='popular'>Popularność</SelectItem>
-                      <SelectItem value='activity'>Aktywność</SelectItem>
-                      <SelectItem value='name'>Nazwa</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className='flex flex-col space-y-1.5'>
-                <Label htmlFor='framework'>Kolejność:</Label>
-                <div className='w-[150px]'>
-                  <Select
-                    onValueChange={(e) =>
-                      setFormData((prev) => ({ ...prev, order: e }))
-                    }>
-                    <SelectTrigger id='order'>
-                      <SelectValue placeholder={orderName} />
-                    </SelectTrigger>
-                    <SelectContent position='popper'>
-                      <SelectItem value='desc'>Malejąco</SelectItem>
-                      <SelectItem value='asc'>Rosnąco</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className='flex flex-col space-y-1.5'>
-                <Label htmlFor='framework'>Ilość tagów:</Label>
-                <div className='w-[150px]'>
-                  <Select
-                    onValueChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        tagsNumber: Number(e),
-                      }))
-                    }>
-                    <SelectTrigger id='tags'>
-                      <SelectValue placeholder={filterData.pageSize} />
-                    </SelectTrigger>
-                    <SelectContent position='popper'>
-                      <SelectItem value='5'>5</SelectItem>
-                      <SelectItem value='10'>10</SelectItem>
-                      <SelectItem value='20'>20</SelectItem>
-                      <SelectItem value='30'>30</SelectItem>
-                      <SelectItem value='50'>50</SelectItem>
-                      <SelectItem value='100'>100</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+              <FilterSelect
+                setFormData={setFormData}
+                id='sort'
+                placeholder={sortByName}
+                selectItems={sortSelectItems}
+                label='Sortuj według:'
+              />
+
+              <FilterSelect
+                setFormData={setFormData}
+                id='order'
+                placeholder={orderName}
+                selectItems={orderSelectItems}
+                label='Kolejność:'
+              />
+              <FilterSelect
+                setFormData={setFormData}
+                id='tagsNumber'
+                placeholder={filterData.pageSize}
+                selectItems={tagsSelectItems}
+                label='Ilość tagów:'
+              />
             </div>
             <div>
               <Button type='submit'>Zastosuj</Button>

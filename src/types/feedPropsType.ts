@@ -1,9 +1,6 @@
 export type FeedPropsType = {
-    items: {
-      count: number;
-      has_synonyms: boolean;
-      is_moderator_only: boolean;
-      is_required: boolean;
-      name: string;
-    }[];
-  };
+  items: {
+    count: number;
+    name: string;
+  }[];
+};
